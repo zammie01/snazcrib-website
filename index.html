@@ -73,9 +73,10 @@
     font-weight: 700;
     font-size: 22px;
     display: flex;
-    align-items: baseline;
-    gap: 2px;
+    align-items: center;
+    gap: 10px;
   }
+  .logo img { width: 30px; height: 30px; border-radius: 8px; display: block; }
   .logo .dot { color: var(--green); }
   .navlinks {
     display: flex;
@@ -160,85 +161,45 @@
   .hero-proof div { font-size: 14px; color: var(--ink-soft); }
   .hero-proof strong { display: block; font-family: 'Fraunces', serif; font-size: 24px; color: var(--ink); font-weight: 600; }
 
-  /* ---------- Phone mock ---------- */
+  /* ---------- Phone mock (real app screenshots) ---------- */
   .phone {
     position: relative;
     background: linear-gradient(180deg, #1c3128, var(--ink));
     border-radius: 34px;
     padding: 14px;
     box-shadow: 0 30px 60px -20px rgba(20, 36, 29, 0.35);
-    max-width: 340px;
+    max-width: 300px;
     margin: 0 auto;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise .6s ease .1s forwards;
   }
-  .phone-screen {
-    background: var(--paper);
+  .phone-frame {
     border-radius: 24px;
     overflow: hidden;
-    padding: 18px 16px 20px;
+    line-height: 0;
   }
-  .phone-search {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--mist);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: var(--ink-soft);
-    margin-bottom: 14px;
+  .phone-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
-  .phone-search svg { width: 15px; height: 15px; flex-shrink: 0; opacity: .6; }
-  .phone-chip-row { display: flex; gap: 8px; margin-bottom: 14px; }
-  .phone-chip {
-    font-size: 11.5px;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: var(--mist);
+  .showcase-phone {
+    max-width: 260px;
+  }
+  .showcase-caption {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14.5px;
     color: var(--ink-soft);
   }
-  .phone-chip.on { background: var(--green); color: #fff; }
-  .listing-card {
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    overflow: hidden;
-    margin-bottom: 12px;
-    opacity: 0;
-    transform: translateY(10px);
-    animation: rise .5s ease forwards;
-  }
-  .listing-card:nth-child(1) { animation-delay: .15s; }
-  .listing-card:nth-child(2) { animation-delay: .32s; }
-  .listing-thumb {
-    height: 84px;
-    background: linear-gradient(135deg, #cfe3d7, #a9c9b7);
-    position: relative;
-  }
-  .luc-badge {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: #fff;
-    color: var(--green-deep);
-    font-size: 10px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .luc-badge svg { width: 9px; height: 9px; }
-  .listing-body { padding: 10px 12px 12px; }
-  .listing-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
-  .listing-meta { font-size: 12px; color: var(--ink-soft); display: flex; justify-content: space-between; }
-  .listing-price { color: var(--green-deep); font-weight: 700; }
+  .showcase-caption strong { color: var(--ink); font-weight: 700; }
 
   @keyframes rise {
     to { opacity: 1; transform: translateY(0); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .listing-card { opacity: 1; transform: none; animation: none; }
+    .phone { opacity: 1; transform: none; animation: none; }
   }
 
   /* ---------- Section shell ---------- */
@@ -331,6 +292,18 @@
   }
   @media (max-width: 520px) {
     .steps { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Showcase ---------- */
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  @media (max-width: 620px) {
+    .showcase-grid { grid-template-columns: 1fr; max-width: 300px; }
   }
 
   /* ---------- Trust grid ---------- */
@@ -490,7 +463,7 @@
 
 <header>
   <nav class="wrap">
-    <div class="logo">Snaz<span class="dot">Crib</span></div>
+    <div class="logo"><img src="assets/logo.png" alt="SnazCrib"> Snaz<span class="dot">Crib</span></div>
     <div class="navlinks">
       <a href="#how-it-works">How it works</a>
       <a href="#trust">Trust &amp; safety</a>
@@ -524,40 +497,31 @@
     </div>
 
     <div class="phone" aria-hidden="true">
-      <div class="phone-screen">
-        <div class="phone-search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-          3 bedroom flat, Lekki
+      <div class="phone-frame">
+        <img src="assets/listing_detail.webp" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <h2>See it in action</h2>
+      <p style="margin-left:auto;margin-right:auto;">Straight from the app — no mockups.</p>
+    </div>
+    <div class="showcase-grid">
+      <div>
+        <div class="phone showcase-phone">
+          <div class="phone-frame"><img src="assets/explore.webp" alt="SnazCrib Explore screen showing nearby listings in Lagos"></div>
         </div>
-        <div class="phone-chip-row">
-          <span class="phone-chip on">Furnished</span>
-          <span class="phone-chip">Self-con</span>
-          <span class="phone-chip">Duplex</span>
+        <p class="showcase-caption"><strong>Search &amp; filter</strong> by beds, budget, and area</p>
+      </div>
+      <div>
+        <div class="phone showcase-phone">
+          <div class="phone-frame"><img src="assets/map.webp" alt="SnazCrib map view showing listing clusters around Lagos"></div>
         </div>
-        <div class="listing-card">
-          <div class="listing-thumb">
-            <span class="luc-badge">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 6v6c0 5 3.8 9 9 10 5.2-1 9-5 9-10V6l-9-4Z"/></svg>
-              Verified
-            </span>
-          </div>
-          <div class="listing-body">
-            <div class="listing-title">3-bed flat, Lekki Phase 1</div>
-            <div class="listing-meta"><span>Furnished</span><span class="listing-price">₦3.2m/yr</span></div>
-          </div>
-        </div>
-        <div class="listing-card">
-          <div class="listing-thumb">
-            <span class="luc-badge">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 6v6c0 5 3.8 9 9 10 5.2-1 9-5 9-10V6l-9-4Z"/></svg>
-              Verified
-            </span>
-          </div>
-          <div class="listing-body">
-            <div class="listing-title">2-bed flat, Ikate Elegushi</div>
-            <div class="listing-meta"><span>Unfurnished</span><span class="listing-price">₦2.1m/yr</span></div>
-          </div>
-        </div>
+        <p class="showcase-caption"><strong>Browse the map</strong> to see what's nearby</p>
       </div>
     </div>
   </div>
@@ -732,7 +696,7 @@
 <footer>
   <div class="wrap">
     <div class="footer-top">
-      <div class="logo">Snaz<span class="dot">Crib</span></div>
+      <div class="logo"><img src="assets/logo.png" alt="SnazCrib"> Snaz<span class="dot">Crib</span></div>
       <div class="footer-links">
         <a href="#how-it-works">How it works</a>
         <a href="#trust">Trust &amp; safety</a>
