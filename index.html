@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnazCrib — Rent a home without agent wahala</title>
+<meta name="description" content="SnazCrib is the Nigerian rental marketplace that lets you search, chat, inspect, and sign your next home — no agent required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fffefb;
+    --ink: #16241f;
+    --ink-soft: #4a564f;
+    --green: #1b6b45;
+    --green-deep: #124d32;
+    --gold: #a97a2c;
+    --mist: #f3efe6;
+    --line: #e2ddd0;
+    --card: #ffffff;
+    --radius: 14px;
+    --maxw: 1120px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 254, 251, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .logo .dot { color: var(--green); }
+  .navlinks {
+    display: flex;
+    gap: 32px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .navlinks a { text-decoration: none; color: var(--ink-soft); transition: color .15s ease; }
+  .navlinks a:hover { color: var(--ink); }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    background: var(--green);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background .15s ease;
+  }
+  .nav-cta:hover { background: var(--green-deep); }
+  .nav-toggle { display: none; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 76px 0 96px;
+  }
+  .hero .wrap {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .eyebrow-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--green-deep);
+    background: #eaf3ee;
+    border: 1px solid #d3e6dc;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .eyebrow-note svg { width: 14px; height: 14px; flex-shrink: 0; }
+  h1.display {
+    font-size: clamp(36px, 4.6vw, 58px);
+    line-height: 1.06;
+    max-width: 15ch;
+  }
+  .hero-sub {
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin: 22px 0 32px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary, .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-deep); }
+  .btn-secondary { border-color: var(--ink); color: var(--ink); }
+  .btn-secondary:hover { background: var(--ink); color: #fff; }
+
+  .hero-proof {
+    margin-top: 34px;
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .hero-proof div { font-size: 14px; color: var(--ink-soft); }
+  .hero-proof strong { display: block; font-family: 'Fraunces', serif; font-size: 24px; color: var(--ink); font-weight: 600; }
+
+  /* ---------- Phone mock ---------- */
+  .phone {
+    position: relative;
+    background: linear-gradient(180deg, #1c3128, var(--ink));
+    border-radius: 34px;
+    padding: 14px;
+    box-shadow: 0 30px 60px -20px rgba(20, 36, 29, 0.35);
+    max-width: 340px;
+    margin: 0 auto;
+  }
+  .phone-screen {
+    background: var(--paper);
+    border-radius: 24px;
+    overflow: hidden;
+    padding: 18px 16px 20px;
+  }
+  .phone-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--mist);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .phone-search svg { width: 15px; height: 15px; flex-shrink: 0; opacity: .6; }
+  .phone-chip-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .phone-chip {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--mist);
+    color: var(--ink-soft);
+  }
+  .phone-chip.on { background: var(--green); color: #fff; }
+  .listing-card {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise .5s ease forwards;
+  }
+  .listing-card:nth-child(1) { animation-delay: .15s; }
+  .listing-card:nth-child(2) { animation-delay: .32s; }
+  .listing-thumb {
+    height: 84px;
+    background: linear-gradient(135deg, #cfe3d7, #a9c9b7);
+    position: relative;
+  }
+  .luc-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #fff;
+    color: var(--green-deep);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .luc-badge svg { width: 9px; height: 9px; }
+  .listing-body { padding: 10px 12px 12px; }
+  .listing-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .listing-meta { font-size: 12px; color: var(--ink-soft); display: flex; justify-content: space-between; }
+  .listing-price { color: var(--green-deep); font-weight: 700; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .listing-card { opacity: 1; transform: none; animation: none; }
+  }
+
+  /* ---------- Section shell ---------- */
+  section { padding: 88px 0; scroll-margin-top: 88px; }
+  section.tinted { background: var(--mist); }
+  .section-head { max-width: 640px; margin-bottom: 48px; }
+  .section-head h2 { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.15; }
+  .section-head p { color: var(--ink-soft); font-size: 17px; margin-top: 14px; max-width: 52ch; }
+
+  /* ---------- Comparison ---------- */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .compare-col { padding: 36px 40px; }
+  .compare-col.old { color: var(--ink-soft); }
+  .compare-divider { background: var(--line); }
+  .compare-label {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .compare-col.new .compare-label { color: var(--green-deep); }
+  .compare ul { list-style: none; padding: 0; margin: 0; }
+  .compare li {
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    display: flex;
+    gap: 10px;
+  }
+  .compare li:first-of-type { border-top: none; }
+  .compare-col.old li::before { content: "✕"; color: #b9776a; flex-shrink: 0; font-size: 13px; margin-top: 3px; }
+  .compare-col.new li::before { content: "✓"; color: var(--green); flex-shrink: 0; font-size: 13px; margin-top: 3px; font-weight: 700; }
+
+  @media (max-width: 720px) {
+    .compare { grid-template-columns: 1fr; }
+    .compare-divider { display: none; }
+    .compare-col.old { border-bottom: 1px solid var(--line); }
+  }
+
+  /* ---------- How it works ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+  .step {
+    padding: 0 20px 0 0;
+    position: relative;
+  }
+  .step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 21px;
+    left: calc(100% - 14px);
+    width: 28px;
+    height: 1px;
+    background: var(--line);
+  }
+  .step-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid var(--green);
+    color: var(--green-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    margin-bottom: 18px;
+  }
+  .step h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 8px; font-family: 'Public Sans', sans-serif; }
+  .step p { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
+
+  @media (max-width: 900px) {
+    .steps { grid-template-columns: 1fr 1fr; gap: 36px 24px; }
+    .step:not(:last-child)::after { display: none; }
+  }
+  @media (max-width: 520px) {
+    .steps { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Trust grid ---------- */
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .trust-card {
+    background: var(--card);
+    padding: 34px 36px;
+  }
+  .trust-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .trust-icon svg { width: 20px; height: 20px; color: var(--green-deep); }
+  .trust-card h3 { font-size: 18px; font-weight: 700; font-family: 'Public Sans', sans-serif; margin-bottom: 8px; }
+  .trust-card p { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
+
+  @media (max-width: 720px) {
+    .trust-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Landlord band ---------- */
+  .landlord {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .landlord-list { list-style: none; padding: 0; margin: 26px 0 0; }
+  .landlord-list li {
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15.5px;
+    display: flex;
+    gap: 12px;
+  }
+  .landlord-list li:first-child { border-top: none; }
+  .landlord-list strong { font-weight: 700; }
+  .num-badge {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--gold);
+    flex-shrink: 0;
+    width: 22px;
+  }
+  .landlord-card {
+    background: var(--ink);
+    border-radius: 20px;
+    padding: 40px;
+    color: #fff;
+  }
+  .landlord-card .fee {
+    font-family: 'Fraunces', serif;
+    font-size: 52px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .landlord-card .fee-label { color: #b9c4bc; font-size: 14px; margin-top: 6px; }
+  .landlord-card .fee-old { color: #8a978f; font-size: 15px; margin-top: 22px; padding-top: 22px; border-top: 1px solid #2a3a33; }
+  .landlord-card .fee-old s { color: #7d8b83; }
+
+  @media (max-width: 860px) {
+    .landlord { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 760px; }
+  .faq-item {
+    border-top: 1px solid var(--line);
+    padding: 22px 0;
+  }
+  .faq-item:last-child { border-bottom: 1px solid var(--line); }
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+";
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--green);
+    transition: transform .15s ease;
+    flex-shrink: 0;
+    margin-left: 20px;
+  }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item p { color: var(--ink-soft); font-size: 15px; margin: 14px 0 0; max-width: 62ch; }
+
+  /* ---------- Closing CTA ---------- */
+  .closing {
+    text-align: center;
+    padding: 100px 0;
+  }
+  .closing h2 { font-size: clamp(30px, 4vw, 44px); max-width: 18ch; margin: 0 auto; }
+  .closing p { color: var(--ink-soft); font-size: 17px; margin: 18px auto 34px; max-width: 46ch; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 48px 0 36px;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-size: 14.5px;
+  }
+  .footer-links a { text-decoration: none; color: var(--ink-soft); }
+  .footer-links a:hover { color: var(--ink); }
+  .footer-bottom {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 760px) {
+    .navlinks { display: none; }
+    .hero .wrap { grid-template-columns: 1fr; }
+    .phone { margin-top: 20px; }
+    .landlord-card { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">Snaz<span class="dot">Crib</span></div>
+    <div class="navlinks">
+      <a href="#how-it-works">How it works</a>
+      <a href="#trust">Trust &amp; safety</a>
+      <a href="#landlords">For landlords</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="nav-cta" href="mailto:snazcrib@gmail.com?subject=Notify%20me%20when%20SnazCrib%20launches">Get notified</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 8l10 6 10-6-10-6Z"/><path d="M2 16l10 6 10-6"/><path d="M2 12l10 6 10-6"/></svg>
+        Launching soon across Lagos, Abuja &amp; Port Harcourt
+      </span>
+      <h1 class="display">Rent a home without the agent wahala.</h1>
+      <p class="hero-sub">Search verified apartments, chat straight to the landlord, book an inspection, and sign your agreement — all from your phone. No middleman, no surprise fees.</p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="mailto:snazcrib@gmail.com?subject=Notify%20me%20when%20SnazCrib%20launches&body=Please%20notify%20me%20when%20SnazCrib%20is%20available.%0A%0ACity%3A%20%0AI%27m%20a%20(tenant%2Flandlord)%3A%20">
+          Join the waitlist
+        </a>
+        <a class="btn-secondary" href="#how-it-works">See how it works</a>
+      </div>
+      <div class="hero-proof">
+        <div><strong>0%</strong>agent commission</div>
+        <div><strong>LUC</strong>verified landlords</div>
+        <div><strong>Escrow</strong>protected rent payments</div>
+      </div>
+    </div>
+
+    <div class="phone" aria-hidden="true">
+      <div class="phone-screen">
+        <div class="phone-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          3 bedroom flat, Lekki
+        </div>
+        <div class="phone-chip-row">
+          <span class="phone-chip on">Furnished</span>
+          <span class="phone-chip">Self-con</span>
+          <span class="phone-chip">Duplex</span>
+        </div>
+        <div class="listing-card">
+          <div class="listing-thumb">
+            <span class="luc-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 6v6c0 5 3.8 9 9 10 5.2-1 9-5 9-10V6l-9-4Z"/></svg>
+              Verified
+            </span>
+          </div>
+          <div class="listing-body">
+            <div class="listing-title">3-bed flat, Lekki Phase 1</div>
+            <div class="listing-meta"><span>Furnished</span><span class="listing-price">₦3.2m/yr</span></div>
+          </div>
+        </div>
+        <div class="listing-card">
+          <div class="listing-thumb">
+            <span class="luc-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 6v6c0 5 3.8 9 9 10 5.2-1 9-5 9-10V6l-9-4Z"/></svg>
+              Verified
+            </span>
+          </div>
+          <div class="listing-body">
+            <div class="listing-title">2-bed flat, Ikate Elegushi</div>
+            <div class="listing-meta"><span>Unfurnished</span><span class="listing-price">₦2.1m/yr</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tinted">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>House hunting in Nigeria is broken. We rebuilt it.</h2>
+      <p>Agent fees, fake listings, and area-boy inspection tolls turn finding a home into a part-time job. SnazCrib cuts out everything between you and the person who actually owns the property.</p>
+    </div>
+    <div class="compare">
+      <div class="compare-col old">
+        <div class="compare-label">The old way</div>
+        <ul>
+          <li>10–20% of your annual rent gone to agent &amp; agreement fees</li>
+          <li>Listings that are outdated, fake, or already taken</li>
+          <li>No way to verify the landlord actually owns the property</li>
+          <li>Cash handed over with no record and no protection</li>
+          <li>Physical inspections with strangers, no notice, no map</li>
+        </ul>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="compare-col new">
+        <div class="compare-label">The SnazCrib way</div>
+        <ul>
+          <li>List and browse for free — no agent commission, ever</li>
+          <li>Listings tied to a real, chat-verified landlord account</li>
+          <li>Land Use Charge (LUC) document checked against the owner's name</li>
+          <li>Rent held in escrow until both sides confirm move-in</li>
+          <li>Book inspections in-app, at a time that works for you</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>From search to signed, in five steps</h2>
+      <p>Everything happens inside one conversation — with the person who actually owns the place.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Search by area</h3>
+        <p>Filter by budget, furnishing, and property type across your city.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Message the landlord</h3>
+        <p>Chat directly, no agent in the middle relaying half-answers.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Book an inspection</h3>
+        <p>Pick a time slot in-app — the landlord accepts or reschedules.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Sign the agreement</h3>
+        <p>State-specific tenancy terms, e-signed by both sides in-app.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <h3>Pay into escrow</h3>
+        <p>Funds release to the landlord only once you confirm move-in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tinted" id="trust">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Built so trust isn't a leap of faith</h2>
+      <p>The two things people worry about most when renting online — is this landlord real, and is my money safe — are the two things we designed around first.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 3 6v6c0 5 3.8 9 9 10 5.2-1 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3>LUC-verified landlords</h3>
+        <p>We check each landlord's Land Use Charge document against their account name before their listing carries a verified badge.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3>Escrow-protected rent</h3>
+        <p>Your payment is held until both you and the landlord confirm the handover — never released blind.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14 3v5h5"/></svg>
+        </div>
+        <h3>Real tenancy agreements</h3>
+        <p>State-specific clauses, editable by the landlord and e-signed by both parties — not a screenshot in a chat.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 17.3 6.2 20l1.1-6.4L2.5 9.1l6.4-.9L12 2.5l3.1 5.7 6.4.9-4.8 4.5 1.1 6.4Z"/></svg>
+        </div>
+        <h3>Ratings that mean something</h3>
+        <p>Reviews are tied to a completed agreement — only tenants who actually rented can leave one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="landlords">
+  <div class="wrap landlord">
+    <div>
+      <h2 style="font-size: clamp(28px, 3.2vw, 38px); line-height: 1.15;">Keep more of your rent. Let SnazCrib find the tenant.</h2>
+      <ul class="landlord-list">
+        <li><span class="num-badge">01</span><span>List your property for free — <strong>no agent fee, ever</strong>.</span></li>
+        <li><span class="num-badge">02</span><span>Get an LUC-verified badge so serious tenants trust your listing.</span></li>
+        <li><span class="num-badge">03</span><span>Screen tenants with their credibility profile — employer, income, guarantor — before you say yes.</span></li>
+        <li><span class="num-badge">04</span><span>Get paid straight to your bank account once rent clears escrow.</span></li>
+      </ul>
+    </div>
+    <div class="landlord-card">
+      <div class="fee">2.5%</div>
+      <div class="fee-label">SnazCrib's fee, deducted from the payout — not added to your tenant's rent</div>
+      <div class="fee-old">Traditional agent commission: <s>10–15% of annual rent</s></div>
+    </div>
+  </div>
+</section>
+
+<section class="tinted" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Questions people actually ask</h2>
+    </div>
+    <div class="faq">
+      <details class="faq-item">
+        <summary>Is SnazCrib really free for tenants?</summary>
+        <p>Yes. Searching, chatting with landlords, and booking inspections cost nothing. You only pay the rent itself, through escrow, once you're ready to move in.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What does "LUC verified" actually mean?</summary>
+        <p>Landlords upload their Land Use Charge document — proof of property tax payment tied to the property. We run it through OCR and match the name on the document against the landlord's account. If it matches, the listing carries a verified badge.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What happens to my rent money before I move in?</summary>
+        <p>It sits in escrow, not the landlord's account. It's only released once both you and the landlord confirm the handover happened — if something's wrong, it stays held until it's resolved.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I still get scammed by a fake landlord?</summary>
+        <p>We can't promise zero risk in any marketplace, but LUC verification, in-app agreements, and escrow together remove the three points where most Nigerian rental scams happen: fake ownership, undocumented agreements, and blind cash handover.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Which cities is SnazCrib available in?</summary>
+        <p>We're launching first in Lagos, Abuja, and Port Harcourt, with more cities coming based on demand. Join the waitlist and tell us your city.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <h2>Your next home is one chat away.</h2>
+    <p>Be first to know when SnazCrib opens in your city.</p>
+    <a class="btn-primary" href="mailto:snazcrib@gmail.com?subject=Notify%20me%20when%20SnazCrib%20launches&body=Please%20notify%20me%20when%20SnazCrib%20is%20available.%0A%0ACity%3A%20%0AI%27m%20a%20(tenant%2Flandlord)%3A%20">
+      Join the waitlist
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="logo">Snaz<span class="dot">Crib</span></div>
+      <div class="footer-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#trust">Trust &amp; safety</a>
+        <a href="#landlords">For landlords</a>
+        <a href="https://zammie01.github.io/snazcrib-privacy-policy/">Privacy policy</a>
+        <a href="https://zammie01.github.io/snazcrib-privacy-policy/delete-account.html">Delete my account</a>
+        <a href="mailto:snazcrib@gmail.com">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SnazCrib. All rights reserved.</span>
+      <span>Lagos · Abuja · Port Harcourt</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
